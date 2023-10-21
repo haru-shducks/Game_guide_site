@@ -1,0 +1,19 @@
+<!---------><!--グループ作成 VV VV-->
+
+
+<%= form_with model: @group, local: true do |f| %>
+
+
+<p>
+  グループ名    <br>
+  <%= f.text_field :name %>
+</p>
+
+
+<p><%= f.submit "グループを作る" %></p>
+
+
+<% end %>
+
+
+<!---------><!--グループ作成 AA AA-->

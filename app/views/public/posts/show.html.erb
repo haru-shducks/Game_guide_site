@@ -1,0 +1,27 @@
+<!--投稿詳細-->
+
+
+<h3><%= @post.title %></h3>
+<p><%= @post.content %></p>
+
+
+<!--投稿者のみ表示 -->
+
+
+<% if @post.user_id == current_user %>
+  <%= link_to "Edit", edit_post_path(@post.id), class:"btn btn-sm btn-success" %>
+  <%= link_to "Destroy", post_path(@post.id), method: :delete, "data-confirm" => "本当に消しますか？", class:"btn btn-sm btn-danger" %>
+<% end %>
+
+
+<!--投稿者のみ表示 おしまい-->
+
+
+<!--管理者のみ表示-->
+  <% if admin_signed_in? %>
+    <%= link_to "Destroy", post_path(@post.id), method: :delete, "data-confirm" => "本当に消しますか？", class:"btn btn-sm btn-danger" %>
+  <% end %>
+<!--管理者のみ表示　おしまい-->
+
+
+<!--投稿詳細　おしまい-->

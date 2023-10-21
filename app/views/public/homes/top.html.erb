@@ -1,2 +1,13 @@
-<h1>Public::Homes#top</h1>
-<p>Find me in app/views/public/homes/top.html.erb</p>
+<!---------><!--投稿表示 VV VV-->
+
+
+<% @posts.each do |post| %>
+
+  <%= link_to post_path(post.id) do %>
+    <h3><%= post.title %></h3>
+  <% end %>
+
+<% end %>
+
+
+<!---------><!--投稿表示 AA AA-->

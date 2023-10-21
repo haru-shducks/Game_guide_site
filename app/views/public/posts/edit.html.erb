@@ -1,2 +1,24 @@
-<h1>Public::Posts#edit</h1>
-<p>Find me in app/views/public/posts/edit.html.erb</p>
+<!---------><!--投稿編集機能 VV VV-->
+
+
+<%= form_with model: @post, local: true do |form| %>
+
+
+<p>
+  タイトル    <br>
+  <%= form.text_field :title %>
+</p>
+
+
+<p>
+  内容    <br>
+  <%= form.text_area :content %>
+</p>
+
+
+<p><%= form.submit "更新" %></p>
+
+<% end %>
+
+
+<!---------><!--投稿編集機能 AA AA-->

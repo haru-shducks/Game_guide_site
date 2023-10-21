@@ -1,2 +1,25 @@
-<h1>Public::Posts#new</h1>
-<p>Find me in app/views/public/posts/new.html.erb</p>
+<!---------><!--投稿機能 VV VV-->
+
+
+<%= form_with model: @post, local: true do |form| %>
+
+
+<p>
+  タイトル    <br>
+  <%= form.text_field :title %>
+</p>
+
+
+<p>
+  内容    <br>
+  <%= form.text_area :content %>
+</p>
+
+
+<p><%= form.submit "作成" %></p>
+
+
+<% end %>
+
+
+<!---------><!--投稿機能 AA AA-->
