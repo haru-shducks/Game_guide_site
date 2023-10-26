@@ -13,7 +13,7 @@ class Public::PostsController < ApplicationController
 
 
 
-# -----投稿　投稿 VV VV
+# -----投稿　作成 VV VV
 
 
   def new
@@ -29,7 +29,7 @@ class Public::PostsController < ApplicationController
   end
 
 
-# -----投稿　投稿 AA AA
+# -----投稿　作成 AA AA
 
 
 
@@ -71,7 +71,9 @@ class Public::PostsController < ApplicationController
 
 # -----ストロングパラメータ VV VV
 
+
   private
+
 
   def post_params
     params.require(:post).permit(:title,:content)

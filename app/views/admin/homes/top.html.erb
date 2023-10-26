@@ -1,13 +1,177 @@
-<!---------><!--投稿表示 VV VV-->
+<!--タブ作成css1 vv vv-->
+
+<style>
+
+
+.tab-btn{
+/*タブの切り替えを制御するラジオボタンを非表示に*/
+display:none;
+}
+.tab-list-wrap{
+/*デフォルトの値をクリア*/
+padding:0;
+/*デフォルトの値をクリア*/
+margin: 0;
+/*デフォルトの値をクリア*/
+list-style-type:none;
+/*ボタンを横並びに*/
+display:flex;
+/*ボタンを横幅いっぱいに配置*/
+justify-content:space-between;
+}
+
+.tab-list{
+display:block;
+/*width: 98px;*/
+/*padding: 8px 0;*/
+/*text-align:center;*/
+border-top:1px solid #4e7bcc;
+border-left:1px solid #4e7bcc;
+border-right:1px solid #4e7bcc;
+border-radius: 4px 4px 0 0;
+background: #c5daff;
+/*borderの値を横幅に含める*/
+box-sizing:border-box;
+/*オンマウス時にカーソルを指の形に*/
+cursor:pointer;
+}
+
+#tab-btn1:checked ~ .tab-list-wrap #tab-list1,
+#tab-btn2:checked ~ .tab-list-wrap #tab-list2{
+background:#ffffff; /*対応するボタンにチェックが入ったときに背景を#ffffff（白）に*/
+}
+
+.tab-content{
+padding:20px;
+border-bottom: 1px solid #4e7bcc;
+border-left: 1px solid #4e7bcc;
+border-right: 1px solid #4e7bcc;
+display:none; /*初期状態を非表示に*/
+}
+#tab-btn1:checked ~ .tab-content-wrap #tab-content1,
+#tab-btn2:checked ~ .tab-content-wrap #tab-content2{
+display: block;/*対応するボタンにチェックが入ったときに表示*/
+}
+
+
+</style>
+
+<!--タブ作成css１　^^ ^^-->
+
+
+
+
+<!--タブエリア１ vv vv-->
+<div class="tab-button-list">
+
+<!--タブボタン一覧１ vv vv-->
+
+<!--隠し　タブボタン vv vv-->
+<input id="tab-btn1" class="tab-btn" name="tab" type="radio" checked>
+<input id="tab-btn2" class="tab-btn" name="tab" type="radio">
+<!--隠し　タブボタン ^^ ^^-->
+
+
+<!--タブボタン vv vv-->
+<ul class="tab-list-wrap">
+<li><label id="tab-list1" class="tab-list" for="tab-btn1">投稿一覧</label></li>
+<li><label id="tab-list2" class="tab-list" for="tab-btn2">グループ一覧</label></li>
+</ul>
+<!--タブボタン ^^ ^^-->
+
+
+<!--タブボタン一覧１ ^^ ^^-->
+
+
+
+
+<!--タブ内容１ vv vv-->
+<div class="tab-content-wrap">
+
+
+<!--タブ１：投稿一覧 vv vv-->
+<div id="tab-content1" class="tab-content">
+<table>
+
+
+<!--1行目 vv vv-->
+<tr>
+  <th><h3>投稿一覧</h3></th>
+</tr>
+<!--1行目 ^^ ^^-->
 
 
 <% @posts.each do |post| %>
+<!--2行目 vv vv-->
+<tr>
 
-  <%= link_to post_path(post.id) do %>
-    <h3><%= post.title %></h3>
-  <% end %>
+<td>
+<%= link_to post_path(post.id) do %>
+  <h3><%= post.title %></h3>
+<% end %>
+</td>
 
+
+<td>
+  投稿者：<%= post.user.name%>さん
+</td>
+
+
+</tr>
+<!--2行目 ^^ ^^-->
 <% end %>
 
 
-<!---------><!--投稿表示 AA AA-->
+</table>
+</div>
+<!--タブ１：投稿一覧 ^^ ^^-->
+
+
+<!--タブ２：グループ一覧 vv vv-->
+<div id="tab-content2" class="tab-content">
+<table>
+<!--1列目 vv vv-->
+<tr>
+  <th>グループ一覧</th>
+</tr>
+<!--1列目 ^^ ^^-->
+
+
+<!--2行目 vv vv-->
+<% @groups.each do |group| %>
+<tr>
+
+<td>
+<%= link_to group_path(group.id) do %>
+  <h3><%= group.name %></h3>
+<% end %>
+</td>
+
+
+<td>
+  リーダー名：<%= group.leader.name %>さん
+</td>
+
+
+<td>
+  メンバー人数：<%= group.group_users.count %>
+</td>
+
+</tr>
+<% end %>
+<!--2行目 ^^ ^^-->
+
+</table>
+
+
+</div>
+<!--タブ２：グループ一覧 ^^ ^^-->
+
+
+</div>
+<!--タブ内容１ ^^ ^^-->
+
+
+</div>
+<!--タブエリア１ ^^ ^^-->
+

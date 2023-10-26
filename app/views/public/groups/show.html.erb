@@ -1,20 +1,196 @@
+<!--タブ作成css1 vv vv-->
+
+<style>
+
+
+.tab-btn{
+/*タブの切り替えを制御するラジオボタンを非表示に*/
+display:none;
+}
+.tab-list-wrap{
+/*デフォルトの値をクリア*/
+padding:0;
+/*デフォルトの値をクリア*/
+margin: 0;
+/*デフォルトの値をクリア*/
+list-style-type:none;
+/*ボタンを横並びに*/
+display:flex;
+/*ボタンを横幅いっぱいに配置*/
+justify-content:space-between;
+}
+
+.tab-list{
+display:block;
+/*width: 98px;*/
+/*padding: 8px 0;*/
+/*text-align:center;*/
+border-top:1px solid #4e7bcc;
+border-left:1px solid #4e7bcc;
+border-right:1px solid #4e7bcc;
+border-radius: 4px 4px 0 0;
+background: #c5daff;
+/*borderの値を横幅に含める*/
+box-sizing:border-box;
+/*オンマウス時にカーソルを指の形に*/
+cursor:pointer;
+}
+
+#tab-btn1:checked ~ .tab-list-wrap #tab-list1,
+#tab-btn2:checked ~ .tab-list-wrap #tab-list2{
+background:#ffffff; /*対応するボタンにチェックが入ったときに背景を#ffffff（白）に*/
+}
+
+.tab-content{
+padding:20px;
+border-bottom: 1px solid #4e7bcc;
+border-left: 1px solid #4e7bcc;
+border-right: 1px solid #4e7bcc;
+display:none; /*初期状態を非表示に*/
+}
+
+#tab-btn1:checked ~ .tab-content-wrap #tab-content1,
+#tab-btn2:checked ~ .tab-content-wrap #tab-content2{
+display: block;/*対応するボタンにチェックが入ったときに表示*/
+}
+
+</style>
+
+<!--タブ作成css１　^^ ^^-->
+
+
+<!---->
+
+
 <!--グループページ VV VV-->
 
 
-  <!--グループ詳細-->
-  <h1><%= @group.name %></h1>
-  <h2><%= @leader.name %></h2>
+<!--グループトップ VV VV-->
 
-  <!--グループの詳細記入-->
 
-  <!--グループ詳細　おしまい-->
+<h1><%= @group.name %></h1>
+<h2><%= @leader.name %></h2>
 
-  <!--グループユーザー一覧-->
-  <% @group_users.each do |f| %>
+
+<% if @group_users.none? { |group_user| group_user.user_id == current_user.id }  %>
+
+
+  <!--非参加時 vv vv-->
+  <%= link_to "参加する", group_users_path(group_id: @group.id), method: :post, class:"btn btn-sm btn-danger" %>
+  <!--非参加時 ^^ ^^-->
+
+
+<% else %>
+
+
+  <!--参加時 vv vv-->
+  <% if @leader != current_user %>
+
+
+  <!--メンバー-->
+    <%= link_to "脱退する", group_user_path(@group.id), method: :delete, "data-confirm" => "脱退しますか？", class:"btn btn-sm btn-danger" %>
+  <!--メンバー　おしまい-->
+
+
+  <% else %>
+
+
+  <!--リーダー-->
+    <%= link_to "Edit", edit_group_path(@group.id), class:"btn btn-sm btn-success" %>
+    <%= link_to "グループを解散する", group_path(@group.id), method: :delete, "data-confirm" => "本当に解散しますか？", class:"btn btn-sm btn-danger" %>
+  <!--リーダー　おしまい-->
+
+
+  <% end %>
+  <!--参加時 ^^ ^^-->
+
+
+<% end %>
+<!--グループトップ ^^ ^^-->
+
+
+
+
+
+<!--タブエリア１ vv vv-->
+<div class="tab-button-list">
+
+<!--タブボタン一覧１ vv vv-->
+
+<!--隠し　タブボタン vv vv-->
+<input id="tab-btn1" class="tab-btn" name="tab" type="radio" checked>
+<input id="tab-btn2" class="tab-btn" name="tab" type="radio">
+<!--隠し　タブボタン ^^ ^^-->
+
+
+<!--タブボタン vv vv-->
+<ul class="tab-list-wrap">
+<li><label id="tab-list1" class="tab-list" for="tab-btn1">ユーザー一覧</label></li>
+<li><label id="tab-list2" class="tab-list" for="tab-btn2">チャット欄</label></li>
+</ul>
+<!--タブボタン ^^ ^^-->
+
+
+<!--タブボタン一覧１ ^^ ^^-->
+
+
+<!--タブ内容１ vv vv-->
+<div class="tab-content-wrap">
+
+<div id="tab-content1" class="tab-content">
+<!--タブ１： vv vv-->
+<h3>ユーザー一覧</h3>
+
+
+<% @group_users.each do |f| %>
 
   <p><%= f.user.name %></p>
 
-  <% end %>
-  <!--グループユーザー一覧　おしまい-->
+<% end %>
+<!--タブ１： ^^ ^^-->
+</div>
+<div id="tab-content2" class="tab-content">
+<!--タブ２： vv vv-->
+
+<!--チャット一覧 vv vv-->
 
 
+<h3>チャット欄</h3>
+<div id="chatList">
+<% @chats.each do |chat| %>
+  <p><%= chat.text %></p>
+<% end %>
+</div>
+<!--チャット一覧 ^^ ^^-->
+
+
+<!--チャットテキスト作成 vv vv-->
+<div id="chatForm">
+<%= form_with url: group_chats_path(group_id: @group.id), model: @chat, remote: true do |form| %>
+
+
+  <p><%= form.text_field :text %></p>
+
+
+  <p><%= form.submit "送信" %></p>
+
+
+<% end %>
+</div>
+<!--チャットテキスト作成 ^^ ^^-->
+
+
+<!--タブ２： ^^ ^^-->
+</div>
+</div>
+<!--タブ内容１ ^^ ^^-->
+</div>
+<!--タブエリア１ ^^ ^^-->
+
+
+<!---->
+
+
+<script>
+$("#chatForm").html;
+</script>

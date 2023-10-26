@@ -5,20 +5,25 @@ class Public::GroupsController < ApplicationController
 
 
   def show
+
+
+    # グループ情報取得
     @group = Group.find(params[:id])
-    @leader = User.find(@group[:leader_id])
+
+    # グループリーダー情報取得
+    @leader = @group.leader
+
+    # グループユーザー情報取得
     @group_users = @group.group_users
 
+    # チャット情報取得
+    @chats = @group.group_chats
 
-    @group_users.each do |f|
 
-    if current_user = f.user_id
-      @group_user_id = current_user
-    end
+    # チャット新規投稿
+    @chat = GroupChat.new
 
-    end
 
-    @url = [:url]
   end
 
 
@@ -53,7 +58,7 @@ class Public::GroupsController < ApplicationController
 
 
     # showページへ
-    redirect_to groups_path(@group.id)
+    redirect_to group_path(@group.id)
 
 
   end
@@ -89,8 +94,8 @@ class Public::GroupsController < ApplicationController
 
 
   def destroy
-    post = Post.find(params[:id])
-    post.destroy
+    group = Group.find(params[:id])
+    group.destroy
     redirect_to root_path
   end
 
@@ -100,7 +105,9 @@ class Public::GroupsController < ApplicationController
 
 # -----ストロングパラメータ VV VV
 
+
   private
+
 
   def group_params
     params.require(:group).permit(:name)

@@ -5,11 +5,20 @@ class Public::GroupUsersController < ApplicationController
 
 
   def create
+
+
+    # グループ情報取得
+    @group = Group.find(params[:group_id])
+
+    # グループ参加
     @group_user = GroupUser.new
-    group = Group.find(params[:id])
     @group_user.user_id = current_user.id
-    @group_user.group_id = group.id
+    @group_user.group_id = @group.id
     @group_user.save
+    redirect_to group_path(@group.id)
+    # グループ参加　おしまい
+
+
   end
 
 
@@ -21,8 +30,10 @@ class Public::GroupUsersController < ApplicationController
 
 
   def destroy
-    @group_user = GroupUser.find(params[:group_id],current_user[:user_id])
+    @group = Group.find(params[:id])
+    @group_user = GroupUser.find_by(user_id: current_user.id,group_id: @group.id)
     @group_user.destroy
+    redirect_to group_path(@group.id)
   end
 
 

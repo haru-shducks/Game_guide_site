@@ -2,149 +2,145 @@
 <html>
 
 <head>
+
+
   <title>GameGuideSite</title>
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <%= csrf_meta_tags %>
   <%= csp_meta_tag %>
 
+
+  <script src="https://kit.fontawesome.com/0cb697a6b2.js" crossorigin="anonymous"></script>
   <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+  <%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
   <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+
+
 </head>
 
 
 <header>
 
 
-<!---------><!--管理者ヘッダー VV VV-->
+<div class="container">
+<!--container vv vv-->
 
 
+
+<!--row１ vv vv-->
+<div class="row">
+<!-----if /admin vv vv-->
 <% if request.fullpath.include? "/admin" %>
 
 
-  <!--サイトロゴ-->
-  <h1>
-    <%= link_to "トップページへ", admin_root_path %><br>
-    <%= link_to "rogo", root_path %>
-  </h1>
-  <!--サイトロゴ　おしまい-->
+  <!--トップ-->
+  <div class="col-5">
+    <h2>
+      <%= link_to "トップへ", admin_root_path %>
+    </h2>
+  </div>
 
 
-  <!--ヘッダーリスト-->
-  <% if admin_signed_in? %>
-    <p>
-      <%= link_to "ログアウト", destroy_admin_session_path, method: :delete %>
-    </p>
-  <% end %>
-  <!--ヘッダーリスト　おしまい-->
+<!-----if admin サインイン？ vv vv-->
+  <div class="col-7">
+    <% if admin_signed_in? %>
 
+    <!--サインイン-->
+      <p>
+        <%= link_to "ログアウト", destroy_admin_session_path, method: :delete %>
+      </p>
 
-  <!--検索機能-->
-  <%= form_with url: admin_root_path, method: :get do |f| %>
-    <%= f.text_field :post_name, placeholder: "気になる攻略を探そう" %>
-    <%= f.submit "検索",class: "button-39" %>
-  <% end %>
-  <!--検索機能　おしまい-->
+    <% else %>
 
+    <!--サインアウト-->
+      <p>
+        <%= link_to "ログイン", new_admin_session_path %>
+      </p>
 
-<% end %>
-
-
-<!---------><!--管理者ヘッダー AA AA-->
-
-
-
-
-<!---------><!--ユーザーヘッダー VV VV-->
-
-
-<% if !request.fullpath.include? "/admin" %>
-
-
-  <!---------><!--ログイン時 VV VV-->
-
-
-  <% if user_signed_in? %>
-
-
-  <!--サイトロゴ-->
-  <h1>
-    <%= link_to "rogo", root_path %>
-  </h1>
-  <!--サイトロゴ　おしまい-->
-
-
-  <!--ヘッダーリスト-->
-
-    <%= link_to "グループ作成", new_group_path %>
-    <%= link_to "新規投稿", new_post_path %>
-    <%= link_to "ログアウト", destroy_user_session_path, method: :delete %>
-  <!--ヘッダーリスト　おしまい-->
-
-
-  <!--検索機能-->
-  <%= form_with url: root_path, method: :get do |f| %>
-    <%= f.text_field :post_name, placeholder: "気になる攻略を探そう" %>
-    <%= f.submit "検索",class: "button-39" %>
-  <% end %>
-  <!--検索機能　おしまい-->
-
-
-  <!--ユーザー名表記-->
-  <%= current_user.name %>
-  <!--ユーザー名表記　おしまい-->
-
-
-  <% end %>
-
-
-  <!---------><!--ログイン時 AA AA-->
-
-
-  <!---------><!--ログアウト時 VV VV-->
-
-  <% if !user_signed_in? %>
-
-
-  <!--サイトロゴ-->
-  <h1>
-    <%= link_to "rogo", root_path %>
-  </h1>
-  <!--サイトロゴ　おしまい-->
-
-
-    <!--ヘッダーリスト-->
-   <%= link_to "About", homes_about_path %><!--アバウトページ-->
-
-    <!--ゲストログイン機能-->
-    <!--情報POST-->
-    <%= form_for(User.new, url:user_session_path) do |f| %>
-    <!--隠し　メールアドレス-->
-      <%= f.hidden_field :email, value: "guest@guest" %>
-    <!--隠し　パスワード-->
-      <%= f.hidden_field :password, value: "guestguest" %>
-      <%= f.submit "ゲストログイン" %>
     <% end %>
-    <!--ゲストログイン機能　おしまい-->
-
-    <%= link_to "ログイン", new_user_session_path %>
-    <!--ヘッダーリスト　おしまい-->
+  </div>
+<!-----if admin サインイン? ^^ ^^-->
 
 
-  <% if admin_signed_in? %>
-    <%= link_to "トップページへ", admin_root_path %>
-  <% end %>
+<% else %>
 
 
-  <% end %>
+  <!--トップ-->
+  <div class="col-5">
+    <h2>
+      <%= link_to "トップへ", root_path %>
+    </h2>
+  </div>
 
 
-  <!---------><!--ログアウト時 AA AA-->
+<!-----if user サインイン？ vv vv-->
+  <div class="col-7">
+    <% if user_signed_in? %>
+
+
+  <!--ログイン時 vv vv-->
+      <%= link_to "グループ作成", new_group_path %>
+      <%= link_to "新規投稿", new_post_path %>
+      <%= link_to "ログアウト", destroy_user_session_path, method: :delete %>
+  <!--ログイン時 ^^ ^^-->
+
+
+    <% else %>
+
+
+  <!--ログアウト時 vv vv-->
+      <%= link_to "About", homes_about_path %><!--アバウトページ-->
+
+
+    <!--ゲストログイン vv vv-->
+      <%= form_for(User.new, url:user_session_path) do |f| %>
+    <!--隠し　メールアドレス-->
+        <%= f.hidden_field :email, value: "guest@guest" %>
+    <!--隠し　パスワード-->
+        <%= f.hidden_field :password, value: "guestguest" %>
+    <!--POSTボタン-->
+        <%= f.submit "ゲストログイン" %>
+      <% end %>
+    <!--ゲストログイン ^^ ^^-->
+
+
+      <%= link_to "新規登録", new_user_registration_path %>
+      <%= link_to "ログイン", new_user_session_path %>
+  <!--ログアウト時 ^^ ^^-->
+
+
+    <% end %>
+  </div>
+<!-----if user サインイン? ^^ ^^-->
 
 
 <% end %>
+<!-----if /admin ^^ ^^-->
 
 
-<!---------><!--ユーザーヘッダー AA AA-->
+  <div class="col-5">
+    <!--ユーザー名表記-->
+    <% if user_signed_in? %>
+      <p><%= current_user.name %>さん<br>ようこそ！</p>
+    <% end %>
+  </div>
+
+
+  <div class="col-7">
+    <!--検索機能-->
+    <%= form_with url: admin_root_path, method: :get do |f| %>
+      <%= f.text_field :scope, placeholder: "気になる攻略を探そう" %>
+      <%= f.submit "検索",class: "button-39" %>
+    <% end %>
+  </div>
+
+
+</div>
+<!--row 1 ^^ ^^-->
+
+
+<!--container ^^ ^^-->
+</div>
 
 
 </header>

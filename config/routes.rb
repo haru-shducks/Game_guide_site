@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
 
 
-  devise_for :guest_users
+
   # -----# 管理者ルーティング VV VV
 
   # ログイン機能
@@ -51,6 +51,10 @@ Rails.application.routes.draw do
 
   # グループ登録
     resources :group_users, only: [:create,:destroy]
+
+
+  # グループチャット機能
+    resources :group_chats, only: [:create,:destroy]
 
 
   # -----グループ AA AA
