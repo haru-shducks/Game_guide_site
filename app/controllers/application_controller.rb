@@ -6,9 +6,9 @@ class ApplicationController < ActionController::Base
   private
 
   def special_controller_action?
-    (controller_name == 'homes'         && action_name == 'top')  ||
-    (controller_name == 'homes'         && action_name == 'about')||
-    (controller_name == 'sessions'      && action_name == 'new')  ||
+    (controller_name == 'homes' && action_name == 'top') ||
+    (controller_name == 'homes' && action_name == 'about') ||
+    (controller_name == 'sessions' && action_name == 'new') ||
     (controller_name == 'registrations' && action_name == 'new')
 
   end
