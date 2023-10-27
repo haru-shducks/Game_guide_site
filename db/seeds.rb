@@ -6,13 +6,19 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-User.create!(
-  name: "ゲストユーザー",
-  email: "guest@guest",
-  password: "guestguest"
-)
+def create_initial_data
+  User.create!(
+    name: "ゲストユーザー",
+    email: "guest@guest",
+    password: "guestguest"
+  )
 
-Admin.create!(
-  email: "test@test",
-  password: "testtest"
-)
+  Admin.create!(
+    email: "test@test",
+    password: "testtest"
+  )
+end
+
+puts 'Creating initial data...'
+create_initial_data
+puts 'Initial data created!'
