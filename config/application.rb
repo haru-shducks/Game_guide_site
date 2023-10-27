@@ -11,15 +11,6 @@ module GameGuideSite
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 6.1
 
-    config.load_secrets
-
-    config.autoload_paths += Dir[Rails.root.join('config', 'seed')]
-
-    config.after_initialize do
-      # seedデータの読み込み
-      require_relative 'seed/seeds_loader'
-    end
-
     # Configuration for the application, engines, and railties goes here.
     #
     # These settings can be overridden in specific environments using the files
