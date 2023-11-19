@@ -5,24 +5,11 @@ class Public::GroupsController < ApplicationController
 
 
   def show
-
-
-    # グループ情報取得
-    @group = Group.find(params[:id])
-
-    # グループリーダー情報取得
-    @leader = @group.leader
-
-    # グループユーザー情報取得
-    @group_users = @group.group_users
-
-    # チャット情報取得
-    @chats = @group.group_chats
-
-
-    # チャット新規投稿
     @chat = GroupChat.new
-
+    @group = Group.find(params[:id])
+    @leader = @group.leader
+    @group_users = @group.group_users
+    @messages = @group.group_chats
 
   end
 
@@ -41,25 +28,18 @@ class Public::GroupsController < ApplicationController
 
   def create
 
-
     # グループ作成
     @group = Group.new(group_params)
     @group.leader_id = current_user.id
     @group.save
-    # グループ作成　おしまい
-
 
     # グループ参加　グループリーダー
     @group_user = GroupUser.new
     @group_user.user_id = current_user.id
     @group_user.group_id = @group.id
     @group_user.save
-    # グループ参加　おしまい
 
-
-    # showページへ
     redirect_to group_path(@group.id)
-
 
   end
 

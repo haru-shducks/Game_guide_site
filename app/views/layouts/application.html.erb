@@ -1,151 +1,123 @@
 <!DOCTYPE html>
 <html>
-
 <head>
-
-
   <title>GameGuideSite</title>
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <%= csrf_meta_tags %>
   <%= csp_meta_tag %>
 
-
   <script src="https://kit.fontawesome.com/0cb697a6b2.js" crossorigin="anonymous"></script>
+  <%= stylesheet_link_tag 'custom.css', media: 'all' %>
   <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-  <%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
   <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
-
-
 </head>
 
 
-<header>
-
-
-<div class="container">
-<!--container vv vv-->
-
-
-
-<!--row１ vv vv-->
-<div class="row">
-<!-----if /admin vv vv-->
-<% if request.fullpath.include? "/admin" %>
-
-
-  <!--トップ-->
-  <div class="col-5">
-    <h2>
-      <%= link_to "トップへ", admin_root_path %>
-    </h2>
-  </div>
-
-
-<!-----if admin サインイン？ vv vv-->
-  <div class="col-7">
-    <% if admin_signed_in? %>
-
-    <!--サインイン-->
-      <p>
-        <%= link_to "ログアウト", destroy_admin_session_path, method: :delete %>
-      </p>
-
-    <% else %>
-
-    <!--サインアウト-->
-      <p>
-        <%= link_to "ログイン", new_admin_session_path %>
-      </p>
-
-    <% end %>
-  </div>
-<!-----if admin サインイン? ^^ ^^-->
-
-
-<% else %>
-
-
-  <!--トップ-->
-  <div class="col-5">
-    <h2>
-      <%= link_to "トップへ", root_path %>
-    </h2>
-  </div>
-
-
-<!-----if user サインイン？ vv vv-->
-  <div class="col-7">
-    <% if user_signed_in? %>
-
-
-  <!--ログイン時 vv vv-->
-      <%= link_to "グループ作成", new_group_path %>
-      <%= link_to "新規投稿", new_post_path %>
-      <%= link_to "ログアウト", destroy_user_session_path, method: :delete %>
-  <!--ログイン時 ^^ ^^-->
-
-
-    <% else %>
-
-
-  <!--ログアウト時 vv vv-->
-      <%= link_to "About", homes_about_path %><!--アバウトページ-->
-
-
-    <!--ゲストログイン vv vv-->
-      <%= form_for(User.new, url:user_session_path) do |f| %>
-    <!--隠し　メールアドレス-->
-        <%= f.hidden_field :email, value: "guest@guest" %>
-    <!--隠し　パスワード-->
-        <%= f.hidden_field :password, value: "guestguest" %>
-    <!--POSTボタン-->
-        <%= f.submit "ゲストログイン" %>
+  <header class="container">
+    <div class="row">
+    <div class="rogo col-5">
+      <h2>
+        <%= link_to "rogo", root_path, class: "link" %>
+      </h2>
+      <% if user_signed_in? %>
+        <p><%= current_user.name %>さん<br>ようこそ！</p>
       <% end %>
-    <!--ゲストログイン ^^ ^^-->
+    </div><!-- .rogo-->
+
+    <div class="header-list col-7">
+      <nav class="navbar navbar-expand">
+
+        <% if request.fullpath.include? "/admin" %>
+
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <%= link_to "ホーム　", admin_root_path, class: "link" %>
+            </li>
+            <% if admin_signed_in? %>
+              <li class="nav-item">
+                 <%= link_to "ログアウト　", destroy_admin_session_path, method: :delete, class: "link" %>
+              </li>
+            <% else %><!--:if admin sign in-->
+              <li class="nav-item">
+                <%= link_to "ログイン　", new_admin_session_path, class: "link" %>
+              </li>
+            <% end %><!--:if admin sign in-->
+          </ul>
+
+        <% else %><!--:if url /admin-->
+
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <%= link_to "ホーム　", root_path, class: "link" %>
+            </li>
+
+            <% if user_signed_in? %>
+
+            <li class="nav-item">
+              <%= link_to "グループ作成　", new_group_path, class: "link" %>
+            </li>
+            <li class="nav-item">
+              <%= link_to "新規投稿　", new_post_path, class: "link" %>
+            </li>
+            <li class="nav-item">
+              <%= link_to "ログアウト　", destroy_user_session_path, method: :delete, class: "link" %>
+            </li>
+
+            <% else %><!-- if user sign in-->
+
+            <li class="nav-item">
+              <%= link_to "About　", homes_about_path, class: "link" %><!--アバウトページ-->
+            </li>
+
+            <li class="nav-item">
+              <%= form_for(User.new, url:user_session_path) do |f| %>
+                <!--:hiddn email-->
+                <%= f.hidden_field :email, value: "guest@guest" %>
+                <!--:hiddn password-->
+                <%= f.hidden_field :password, value: "guestguest" %>
+                <%= f.submit "ゲストログイン　", class: "link" %>
+              <% end %><!--:form guest user-->
+            </li>
+
+            <li class="nav-item">
+              <%= link_to "新規登録　", new_user_registration_path, class: "link" %>
+            </li>
+            <li class="nav-item">
+              <%= link_to "ログイン　", new_user_session_path, class: "link" %>
+            </li>
+
+            <% end %><!--:if user sign in-->
+          </ul>
+
+        <% end %><!--:if url /admin-->
+        </ul>
+      </nav>
+    </div><!--:.header-list-->
+
+    <div class="col-12">
+      <!--検索機能-->
+      <%= form_with url: root_path, method: :get do |f| %>
+        <%= f.text_field :scope, placeholder: "気になる攻略を探そう" %>
+        <%= f.submit "検索",class: "button-39" %>
+      <% end %>
+    </div>
+    <div class="genre_list">
+      <% @genres.each do |genre| %>
+        <span>:
+          <%= link_to homes_genre_scope_path(genre_id: genre.id) do %>
+            <%= genre.name %>
+          <% end %>
+        </span>
+      <% end %>
+    </div><!--.genre_list-->
+    </div><!--.row-->
+  </header>
 
 
-      <%= link_to "新規登録", new_user_registration_path %>
-      <%= link_to "ログイン", new_user_session_path %>
-  <!--ログアウト時 ^^ ^^-->
+  <body>
+    <%= yield %>
+  </body>
 
 
-    <% end %>
-  </div>
-<!-----if user サインイン? ^^ ^^-->
 
-
-<% end %>
-<!-----if /admin ^^ ^^-->
-
-
-  <div class="col-5">
-    <!--ユーザー名表記-->
-    <% if user_signed_in? %>
-      <p><%= current_user.name %>さん<br>ようこそ！</p>
-    <% end %>
-  </div>
-
-
-  <div class="col-7">
-    <!--検索機能-->
-    <%= form_with url: admin_root_path, method: :get do |f| %>
-      <%= f.text_field :scope, placeholder: "気になる攻略を探そう" %>
-      <%= f.submit "検索",class: "button-39" %>
-    <% end %>
-  </div>
-
-
-</div>
-<!--row 1 ^^ ^^-->
-
-
-<!--container ^^ ^^-->
-</div>
-
-
-</header>
-
-<body>
-  <%= yield %>
-</body>
 </html>

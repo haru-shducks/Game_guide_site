@@ -12,7 +12,7 @@ class Public::GroupChatsController < ApplicationController
     @chat.user_id = current_user.id
     @chat.group_id = @group.id
     @chat.save
-    render group_path(@group.id)
+    redirect_to group_path(@group)
     # グループチャット作成　おしまい
   end
 

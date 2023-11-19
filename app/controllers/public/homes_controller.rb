@@ -1,32 +1,27 @@
 class Public::HomesController < ApplicationController
   skip_before_action :authenticate_user!
 
-
-# -----ホームビュー VV VV
-
-
   def top
-
-    # 検索機能 vv vv
-    # 検索情報取得
+    # 検索機能
     if scope = params[:scope]
       @posts = Post.where("title LIKE ?","%"+ scope + "%")
       @groups = Group.where("name LIKE ?","%"+ scope + "%")
-    else
-
-    # scopeがなければ全て取得
+    else# if scope params[:scope]
       @posts = Post.all
       @groups = Group.all
-    end
-    # 検索機能 ^^ ^^
+    end# if scope params[:scope]
   end
 
+  def genre_scope
+    if genre_id = params[:genre_id]
+      @genre = Genre.find(genre_id)
+      @post_genre = @genre.post_genres
+    else# if genre_id = params[:genre_id]
+      redirect_to root_path
+    end# if genre_id = params[:genre_id]
+  end
 
   def about
   end
 
-
-# -----ホームビュー AA AA
 end
-
-

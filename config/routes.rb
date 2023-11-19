@@ -40,6 +40,7 @@ Rails.application.routes.draw do
   # トップ
     root 'homes#top'
     get 'homes/about'
+    get 'homes/genre_scope'
 
 
   # -----グループ VV VV

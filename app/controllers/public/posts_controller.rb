@@ -6,6 +6,7 @@ class Public::PostsController < ApplicationController
 
   def show
     @post = Post.find(params[:id])
+    @genre = @post.post_genres
   end
 
 
@@ -23,8 +24,11 @@ class Public::PostsController < ApplicationController
 
   def create
     @post = Post.new(post_params)
+    @post.score = Language.get_data(post_params[:content])
     @post.user_id = current_user.id
     @post.save
+    Language.analyze_entity_sentiment(post_params[:title], @post.id)
+
     redirect_to root_path
   end
 
@@ -43,8 +47,9 @@ class Public::PostsController < ApplicationController
 
   def update
     @post = Post.find(params[:id])
+    @post.score = Language.get_data(post_params[:content])
     if @post.update(post_params)
-      redirect_to request.referer
+      redirect_to post_path(params[:id])
     else
       render "edit"
     end
@@ -61,6 +66,11 @@ class Public::PostsController < ApplicationController
   def destroy
     post = Post.find(params[:id])
     post.destroy
+    @genres.each do |genre|
+      if genre.post_genres.count == 0
+        genre.destroy
+      end
+    end
     redirect_to root_path
   end
 
