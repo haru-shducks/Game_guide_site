@@ -1,69 +1,68 @@
-<div class="container">
-  <br>
-  <div class="row">
-    <div class="tabs">
-      <ul class="nav nav-tabs">
-        <li class="nav-item">
-          <a class="nav-link active" data-toggle="tab" href="#section1">投稿一覧</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" data-toggle="tab" href="#section2">グループ一覧</a>
-        </li>
-    
-      </ul>
+
+<br>
+<div class="row">
+  <div class="tabs">
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <a class="nav-link active" data-toggle="tab" href="#section1">投稿一覧</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#section2">グループ一覧</a>
+      </li>
   
-  
-    <div class="tab-content">
-      <div id="section1" class="tab-pane fade show active">
-        <h3>投稿一覧</h3>
-        <table>
-          <% @posts.each do |post| %>
-            <tr>
-              <td>
-                <%= link_to post_path(post.id), class: "link" do %>
-                  <h3><%= post.title %></h3>
-                  <% if post.score == nil %>
-                    <% post.score = 0.0  %>
-                  <% elsif post.score >= 0.5 %>
-                    <p>ポジティブ</p>
-                  <% elsif post.score <= -0.5 %>
-                    <p>ネガティブ</p>
-                  <% else%>
-                    <p>ニュートラル</p>
-                  <% end %>
+    </ul>
+
+
+  <div class="tab-content">
+    <div id="section1" class="tab-pane fade show active">
+      <h3>投稿一覧</h3>
+      <table>
+        <% @posts.each do |post| %>
+          <tr>
+            <td>
+              <%= link_to post_path(post.id), class: "link" do %>
+                <h3><%= post.title %></h3>
+                <% if post.score == nil %>
+                  <% post.score = 0.0  %>
+                <% elsif post.score >= 0.5 %>
+                  <p>ポジティブ</p>
+                <% elsif post.score <= -0.5 %>
+                  <p>ネガティブ</p>
+                <% else%>
+                  <p>ニュートラル</p>
                 <% end %>
-              </td>
-  
-              <td>
-                投稿者：<%= post.user.name%>さん
-              </td>
-            </tr>
-  
-          <% end %><!-- each |post|-->
-        </table>
-      </div>
-      <div id="section2" class="tab-pane fade">
-        <h3>グループ一覧</h3>
-        <table>
-          <% @groups.each do |group| %>
-            <tr>
-              <td>
-                <%= link_to group_path(group.id), class: "link" do %>
-                  <h3><%= group.name %></h3>
-                <% end %>
-              </td>
-  
-              <td>
-                リーダー名：<%= group.leader.name %>さん
-              </td>
-  
-              <td>
-                メンバー人数：<%= group.group_users.count %>
-              </td>
-            </tr>
-          <% end %><!-- each |group|-->
-        </table>
-      </div>
+              <% end %>
+            </td>
+
+            <td>
+              投稿者：<%= post.user.name%>さん
+            </td>
+          </tr>
+
+        <% end %><!-- each |post|-->
+      </table>
+    </div>
+    <div id="section2" class="tab-pane fade">
+      <h3>グループ一覧</h3>
+      <table>
+        <% @groups.each do |group| %>
+          <tr>
+            <td>
+              <%= link_to group_path(group.id), class: "link" do %>
+                <h3><%= group.name %></h3>
+              <% end %>
+            </td>
+
+            <td>
+              リーダー名：<%= group.leader.name %>さん
+            </td>
+
+            <td>
+              メンバー人数：<%= group.group_users.count %>
+            </td>
+          </tr>
+        <% end %><!-- each |group|-->
+      </table>
     </div>
   </div>
-</div><!--.container-->
+</div>
