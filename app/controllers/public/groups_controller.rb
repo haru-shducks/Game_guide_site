@@ -52,14 +52,14 @@ class Public::GroupsController < ApplicationController
 
 
   def edit
-    @post = Post.find(params[:id])
+    @group = Group.find(params[:id])
   end
 
 
   def update
-    @post = Post.find(params[:id])
-    if @post.update(post_params)
-      redirect_to request.referer
+    @group = Group.find(params[:id])
+    if @group.update(group_params)
+      redirect_to group_path(@group)
     else
       render "edit"
     end

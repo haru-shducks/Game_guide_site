@@ -1,1 +1,9 @@
 <h1>グループ編集ページ</h1>
+
+<%= form_with model: @group, local: true do |group| %>
+  <p>
+    グループネーム   <br>
+    <%= group.text_field :name %>
+  </p>
+  <p><%= group.submit "更新" %></p>
+<% end %><!--form group-->
