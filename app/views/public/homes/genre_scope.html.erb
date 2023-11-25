@@ -1,5 +1,7 @@
-<% @post_genre.each do |f| %>
-  <h1><%= f.post.title %></h1>
+
+<h1><%= @genre.name %></h1>
+<% @genre.post_genres.each do |f| %>
+  <h3><%= f.post.title %></h3>
   <p><%= f.post.content %></p>
   <br>
 <% end %>

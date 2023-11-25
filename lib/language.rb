@@ -77,7 +77,7 @@ module Language
               genre_id: genre.id
             )
             postgenre.save
-        end
+          end
           # ここに他の処理を追加することができます
         end
       end
