@@ -1,1 +1,8 @@
 @use '~bootstrap/scss/bootstrap';
+
+.link {
+  background: none;
+  border: none;
+  color: red;
+  cursor: pointer;
+}
