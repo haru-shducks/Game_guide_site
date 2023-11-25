@@ -1,7 +1,15 @@
 <h3><%= @post.title %></h3>
 <p><%= @post.content %></p>
 <p><%= @post.score %></p>
-<span></span>
+<p>
+  <% @post.post_genres.each do |f| %>
+    <span>:
+      <%= link_to homes_genre_scope_path(genre_id: f.genre.id) do %>
+        <%= f.genre.name %>
+      <% end %>
+    </span>
+  <% end %><!--each f-->
+</p>
 
 
 <% if @post.user_id == current_user.id %>
